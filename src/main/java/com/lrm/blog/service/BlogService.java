@@ -13,7 +13,10 @@ public interface BlogService {
 查询
  */
     Blog getBlog(Long id);
-
+/**
+ * 通过标题来查询
+ */
+Blog gettitleByName(String title);
     /**
      * 分页功能
      */

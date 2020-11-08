@@ -40,6 +40,11 @@ public class BlogServiceiml implements BlogService{
         return blogRepository.findOne(id);
     }
 
+    @Override
+    public Blog gettitleByName(String title) {
+        return blogRepository.findBytitle(title);
+    }
+
     /**
      * 动态分页功能
      * @param pageable

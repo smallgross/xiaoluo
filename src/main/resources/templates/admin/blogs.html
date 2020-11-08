@@ -55,24 +55,30 @@
 
         <div class="ui  secondary segment form">
             <input type="hidden" name="page">
+
             <div class="inline fields">
                 <div class="field">
+
                     <input type="text" name="title" placeholder="标题"/>
                 </div>
                 <div class="field">
-                    <div class="ui selection dropdown">
-                        <input type="hidden" name="typeId"/>
-                        <i class="dropdown icon"></i>
-                        <div class="default text">分类</div>
-                        <div class="menu">
-                            <div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}"
-                                 th:text="${type.name}">错误日志
+                    <div class="ui labeled action input">
+                        <div class="ui type selection dropdown">
+                            <input type="hidden" name="typeId"/>
+                            <i class="dropdown icon"></i>
+                            <div class="default text">分类</div>
+                            <div class="menu">
+                                <div th:each="type : ${types}" class="item" data-value="1" th:data-value="${type.id}"
+                                     th:text="${type.name}">错误日志
+                                </div>
+                                <!--/*-->
+                                <div class="item" data-value="2">正确日志</div>
+                                <!--*/-->
                             </div>
-                            <!--/*-->
-                            <div class="item" data-value="2">正确日志</div>
-                            <!--*/-->
                         </div>
+                        <button id="clear-btn" class="ui compact button">clear</button>
                     </div>
+
                 </div>
                 <div class="field">
                     <div class="ui checkbox">
@@ -103,12 +109,14 @@
                     <td th:text="${iterStat.count}">1</td>
                     <td th:text="${blog.title}">练习清单</td>
                     <td th:text="${blog.type.name}">认知升级</td>
-                    <td th:text="${bolg.recommend} ? '是':'否'">是</td>
-                    <td th:text="${bolg.updateTime}">2020-2-10 0:00</td>
+                    <td th:text="${blog.recommend} ? '是':'否'">是</td>
+
+                    <td th:text="${blog.published} ? '草稿':'发布'">草稿</td>
+                    <td th:text="${blog.updateTime}">2020-10-02 09:45</td>
                     <td>
-                        <a href="#" th:href="@{/admin/bolg/{id}/input(id=${bolg.id})}"
+                        <a href="#" th:href="@{/admin/bolgs/{id}/input(id=${blog.id})}"
                            class="ui mini teal basic button">编辑</a>
-                        <a href="#" th:href="@{/admin/bolg/{id}/delete(id=${bolg.id})}"
+                        <a href="#" th:href="@{/admin/bolgs/{id}/delete(id=${blog.id})}"
                            class="ui mini red basic button">删除</a>
                     </td>
                 </tr>
@@ -116,14 +124,10 @@
 
                 <tfoot>
                 <tr>
-                    <th colspan="6">
-                        <div class="ui mini  floated pagination menu" th:if="${page.totalPages}>1">
-
-
-                            <a onclick="page(this)" th：attr=" data-page=${page.number}-1" class="item"
-                               th:unless="${page.first}">上一页</a>
-                            <a onclick="page(this)" th：attr=" data-page=${page.number}+1" class="item"
-                               th:unless="${page.last}">下一页</a>
+                    <th colspan="7">
+                        <div class="ui mini   pagination menu" th:if="${page.totalPages}>1">
+                            <a onclick="page(this)" th:attr="data-page=${page.number}-1" class="item" th:unless="${page.first}">上一页</a>
+                            <a onclick="page(this)" th:attr="data-page=${page.number}+1" class=" item" th:unless="${page.last}">下一页</a>
 
                         </div>
                         <a href="#"th:href="@{/admin/blogs/input}" class="ui mini right floated teal basic button">新增</a>
@@ -216,6 +220,7 @@
     }
 
     $("#search-btn").click(function () {
+        $("[name='page']").val(0);
         loaddata();
     });
 
@@ -223,7 +228,7 @@
         $("#table-container").load(/*[[@{/admin/blogs/search}]]*/"/admin/blogs/search", {
             title: $("[name='title']").val(),
             typeId: $("[name='typeId']").val(),
-            recommend: $("[name='recommend']").prop('checked'),
+            recommend : $("[name='recommend']").prop('checked'),
             page: $("[name='page']").val()
         });
     }
