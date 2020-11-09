@@ -14,6 +14,7 @@ import java.util.List;
 /**
  * 类型
  */
+@Data
 @Entity
 @Table(name = "t_type")
 public class Type {

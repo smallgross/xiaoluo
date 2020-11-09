@@ -105,12 +105,33 @@ public class BlogController {
         return REDIRECT_LIST;
 
     }
-    @GetMapping("bolgs/{id}/input")
+
+    /**
+     * 修改博客内容调用
+     * @param id
+     * @param model
+     * @return
+     */
+    @GetMapping("/bolgs/{id}/input")
     public String bolginput( @PathVariable Long id, Model model){
-
-
-        return "redirect:/admin/blogs";
+    seTypeAndTag(model);
+  Blog blog=  blogService.getBlog(id);
+        blog.init();
+        System.out.println(blog);
+  model.addAttribute("blog",blog);
+        return "redirect:/admin/blogs-input";
     }
+
+    /**
+     * 添加时初始化，查询分类和标签
+     * @param model
+     */
+    private void seTypeAndTag(Model model) {
+        model.addAttribute("types",typeService.listType());
+        model.addAttribute("tags",tagService.listTag());
+        System.out.println(model);
+    }
+
     /**
      * 博客删除功能
      * @param id

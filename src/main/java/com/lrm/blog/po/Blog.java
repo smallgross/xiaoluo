@@ -12,6 +12,7 @@ import java.util.List;
 /**
  * 博客首页实体类
  */
+@Data
 @Entity
 @Table(name = "t_blog")
 public class Blog {

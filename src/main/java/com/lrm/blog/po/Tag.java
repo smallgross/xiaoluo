@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * 标签
  */
+@Data
 @Entity
 @Table(name = "t_tag")
 public class Tag {

@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * 评论
  */
+@Data
 @Entity
 @Table(name = "t_comment")
 public class Comment {
