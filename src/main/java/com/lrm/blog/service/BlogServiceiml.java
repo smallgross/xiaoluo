@@ -106,6 +106,7 @@ public class BlogServiceiml implements BlogService{
     @Override
     public Blog updateBlog(Long id, Blog blog) {
         Blog b = blogRepository.findOne(id);
+        System.out.println(b);
         if(b==null){
             throw new NotFoundException("该博客不存在");
 

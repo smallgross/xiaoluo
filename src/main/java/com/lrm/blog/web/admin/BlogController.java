@@ -1,7 +1,6 @@
 package com.lrm.blog.web.admin;
 
 import com.lrm.blog.po.Blog;
-import com.lrm.blog.po.Type;
 import com.lrm.blog.po.User;
 import com.lrm.blog.service.BlogService;
 import com.lrm.blog.service.TagService;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 
 /**
  * 后台博客界面
@@ -117,7 +114,6 @@ public class BlogController {
     seTypeAndTag(model);
   Blog blog=  blogService.getBlog(id);
         blog.init();
-        System.out.println(blog);
   model.addAttribute("blog",blog);
         return "redirect:/admin/blogs-input";
     }

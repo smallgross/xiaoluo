@@ -48,13 +48,13 @@
 <!--中间内容-->
 <div  class="m-container-small  m-padded-tb-big">
 	<div class="ui container">
-		<form id="blog-form" action="#"  th:action="@{/admin/blogs}" method="post" class="ui form">
+		<form action="#" class="ui form" id="blog-form" method="post" th:action="@{/admin/blogs}" th:object="${blog}">
 
 			<input type="hidden" name="id" >
 			<div class="required field">
 				<div class="ui left labeled input">
 					<div class="ui selection compact teal basic dropdown label">
-						<input type="hidden" value="原创" name="flag"  >
+						<input name="flag" th:value="*{flag}" type="hidden" value="原创">
 						<i class="dropdown icon"></i>
 						<div class="text">原创</div>
 						<div class="menu">
@@ -69,7 +69,7 @@
 
 			<div class="required field selection">
 				<div id="md-content" style="z-index: 1 !important;">
-					<textarea placeholder="博客内容" name="content" style="display: none" ></textarea>
+					<textarea name="content" placeholder="博客内容" style="display: none" th:text="*{content}"></textarea>
 				</div>
 			</div>
 
@@ -78,7 +78,7 @@
 					<div class="ui left labeled action input">
 						<label class="ui compact teal basic label">分类</label>
 						<div class="ui fluid selection dropdown">
-							<input type="hidden" name="type.id" >
+							<input name="type.id" th:value="*{type}!=null ? *{type.id}" type="hidden">
 							<i class="dropdown icon"></i>
 							<div class="default text">分类</div>
 							<div class="menu">
@@ -91,7 +91,7 @@
 					<div class="ui left labeled action input">
 						<label class="ui compact teal basic label">标签</label>
 						<div class="ui fluid selection multiple search  dropdown">
-							<input type="hidden" name="tagIds"  >
+							<input name="tagIds" th:value="*{tagIds}" type="hidden">
 							<i class="dropdown icon"></i>
 							<div class="default text">标签</div>
 							<div class="menu">
@@ -105,36 +105,40 @@
 			<div class="required field">
 				<div class="ui left labeled input">
 					<label class="ui teal basic label">首图</label>
-					<input type="text" name="firstPicture"  placeholder="首图引用地址">
+					<input name="firstPicture" placeholder="首图引用地址" th:value="*{firstPicture}" type="text">
 				</div>
 			</div>
 
-			<!--<div class="required field">-->
-				<!--<textarea name="description"  placeholder="博客描述..." maxlength="200"></textarea>-->
-			<!--</div>-->
+			<div class="required field">
+				<textarea maxlength="200" name="description" placeholder="博客描述..." th:text="*{description}"></textarea>
+			</div>
 
 			<div class="inline fields">
 				<div class="field">
 					<div class="ui checkbox">
-						<input type="checkbox" id="recommend" name="recommend"  class="hidden">
+						<input checked class="hidden" id="recommend" name="recommend" th:checked="*{recommend}"
+							   type="checkbox">
 						<label for="recommend">推荐</label>
 					</div>
 				</div>
 				<div class="field">
 					<div class="ui checkbox">
-						<input type="checkbox" id="shareStatement" name="shareStatement" class="hidden">
+						<input class="hidden" id="shareStatement" name="shareStatement" th:checked="*{shareStatement}"
+							   type="checkbox">
 						<label for="shareStatement">转载声明</label>
 					</div>
 				</div>
 				<div class="field">
 					<div class="ui checkbox">
-						<input type="checkbox" id="appreciation" name="appreciation"  class="hidden">
+						<input class="hidden" id="appreciation" name="appreciation" th:checked="*{appreciation}"
+							   type="checkbox">
 						<label for="appreciation">赞赏</label>
 					</div>
 				</div>
 				<div class="field">
 					<div class="ui checkbox">
-						<input type="checkbox" id="commentabled" name="commentabled"  class="hidden">
+						<input class="hidden" id="commentabled" name="commentabled" th:checked="*{commentabled}"
+							   type="checkbox">
 						<label for="commentabled">评论</label>
 					</div>
 				</div>
@@ -260,14 +264,14 @@
 					type : 'empty',
 					prompt: '标题：请输入博客首图'
 				}]
+			},
+			description: {
+				identifier: 'description',
+				rules: [{
+					type: 'empty',
+					prompt: '标题：请输入博客描述'
+				}]
 			}
-			// description : {
-			// 	identifier: 'description',
-			// 	rules: [{
-			// 		type : 'empty',
-			// 		prompt: '标题：请输入博客描述'
-			// 	}]
-			// }
 		}
 	});
 
