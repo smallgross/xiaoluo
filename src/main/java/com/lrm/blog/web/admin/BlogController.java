@@ -27,8 +27,8 @@ import javax.servlet.http.HttpSession;
 @RequestMapping("/admin")
 public class BlogController {
 
-    private static final String INPUT="admin/blogs-input";
-    private static final String LIST="admin/blogs";
+    private static final String INPUT = "admin/blogs-input";//文档编辑页面的跳转
+    private static final String LIST = "admin/blogs";//博客跳转
     private static final String REDIRECT_LIST="redirect:/admin/blogs";
 
     @Autowired
@@ -115,7 +115,7 @@ public class BlogController {
   Blog blog=  blogService.getBlog(id);
         blog.init();
   model.addAttribute("blog",blog);
-        return "redirect:/admin/blogs-input";
+        return INPUT;
     }
 
     /**
@@ -138,7 +138,7 @@ public class BlogController {
     public String blogdelete(@PathVariable Long id, RedirectAttributes attributes){
         blogService.deleteBlog(id);
         attributes.addFlashAttribute("message","删除成功");
-        return "redirect:/admin/blogs";
+        return REDIRECT_LIST;
 
     }
 
