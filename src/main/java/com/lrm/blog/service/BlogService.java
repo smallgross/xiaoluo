@@ -5,6 +5,8 @@ import com.lrm.blog.vo.BlogQuery;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 /**
  * 博客 界面
  */
@@ -13,10 +15,8 @@ public interface BlogService {
 查询
  */
     Blog getBlog(Long id);
-/**
- * 通过标题来查询
- */
-Blog gettitleByName(String title);
+
+    ;
     /**
      * 分页功能
      */
@@ -34,4 +34,15 @@ Blog gettitleByName(String title);
      * 删除接口
      */
     void deleteBlog(Long id);
+
+
+    //首页查询方法
+
+
+    Page<Blog> listBlog(String query, Pageable pageable);
+
+    Page<Blog> listBlog(Pageable pageable);
+
+    //首页展示
+    List<Blog> listRecommendBlogTop(Integer size);
 }

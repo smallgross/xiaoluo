@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 分类新增
@@ -43,5 +42,10 @@ public interface TypeService {
      * 删除
      */
     void deleteType(Long id);
+
+    /**
+     * 前端
+     */
+    List<Type> listTypeTop(Integer size);
 
 }

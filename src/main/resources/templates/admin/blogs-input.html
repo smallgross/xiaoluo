@@ -63,7 +63,7 @@
 							<div class="item" data-value="翻译">翻译</div>
 						</div>
 					</div>
-					<input type="text" name="title" placeholder="标题" >
+                    <input name="title" placeholder="标题" th:value="*{title}" type="text">
 				</div>
 			</div>
 
@@ -116,8 +116,8 @@
 			<div class="inline fields">
 				<div class="field">
 					<div class="ui checkbox">
-						<input checked class="hidden" id="recommend" name="recommend" th:checked="*{recommend}"
-							   type="checkbox">
+                        <input checked class="hidden" id="recommend" name="recommend" th:checked="*{recommend}"
+                               type="checkbox">
 						<label for="recommend">推荐</label>
 					</div>
 				</div>

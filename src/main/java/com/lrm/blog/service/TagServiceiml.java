@@ -3,9 +3,12 @@ package com.lrm.blog.service;
 import com.lrm.blog.NotFoundException;
 import com.lrm.blog.dao.TagRepository;
 import com.lrm.blog.po.Tag;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -39,7 +42,8 @@ public class TagServiceiml implements TagService {
     public Page<Tag> listTag(Pageable pageable) {
         return tagRepository.findAll(pageable);
     }
-  @Transactional
+
+    @Transactional
     @Override
     public List<Tag> listTag() {
         return tagRepository.findAll();
@@ -65,19 +69,47 @@ public class TagServiceiml implements TagService {
         }
         return list;
     }
+
+    /**
+     * 修改
+     *
+     * @param id
+     * @param
+     * @return
+     */
     @Transactional
     @Override
-    public Tag updateTag(Long id, Tag type) {
+    public Tag updateTag(Long id, Tag tag) {
         Tag t=tagRepository.findOne(id);
         if (t==null){
             throw  new NotFoundException("不存在该标签");
         }
+        BeanUtils.copyProperties(tag,t);
         return tagRepository.save(t);
     }
+
+    /**
+     * 删除
+     * @param id
+     */
     @Transactional
     @Override
     public void deleteTag(Long id) {
         tagRepository.delete(id);
 
+    }
+
+    /**
+     * 首页的top站展示
+     *
+     * @param size
+     * @return
+     */
+    @Transactional
+    @Override
+    public List<Tag> listTagTop(Integer size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "blogs.size");
+        Pageable pageable = new PageRequest(0, size, sort);
+        return tagRepository.findTop(pageable);
     }
 }

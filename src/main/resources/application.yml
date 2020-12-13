@@ -9,4 +9,3 @@ spring:
     mode: HTML5
   profiles:
     active: dev
-

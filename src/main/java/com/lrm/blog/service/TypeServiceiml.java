@@ -7,12 +7,13 @@ import com.lrm.blog.po.Type;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 实现分类新增
@@ -52,14 +53,21 @@ private TypeRepository typeRepository;
         return typeRepository.findAll();
     }
 
+    /**
+     * 修改
+     *
+     * @param id
+     * @param type
+     * @return
+     */
     @Transactional
     @Override
     public Type updateype(Long id, Type type) {
         Type t = typeRepository.findOne(id);
-        if (t==null){
-      throw new NotFoundException("不存在该类型");
+        if (t== null) {
+            throw new NotFoundException("不存在该分类");
 
-  }
+        }
         BeanUtils.copyProperties(type,t);
 
         return typeRepository.save(t);
@@ -67,7 +75,16 @@ private TypeRepository typeRepository;
     @Transactional
     @Override
     public void deleteType(Long id) {
-    typeRepository.delete(id);
+        typeRepository.delete(id);
 
+    }
+
+    @Transactional
+    @Override
+    public List<Type> listTypeTop(Integer size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "blogs.size");
+        Pageable pageable = new PageRequest(0, size, sort);
+
+        return typeRepository.findTop(pageable);
     }
 }

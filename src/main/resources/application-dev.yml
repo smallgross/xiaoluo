@@ -15,3 +15,4 @@ logging:
     root: info
     com.lrm.blog: info
   file: log/xiaoluo-dev.log
+

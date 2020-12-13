@@ -23,22 +23,14 @@ public class ControllerExceptionHandler {
     if (AnnotationUtils.findAnnotation(e.getClass(),ResponseStatus.class)!=null){
         throw  e;
 
-    }
-
+    } else {
         //ModelAndView展示出来
         ModelAndView mv = new ModelAndView();
         mv.addObject("url",request.getRequestURL());
         mv.addObject("exception",e);
         mv.setViewName("error/error");
         return  mv;
-
-
-
-
-
-
-
-
+    }
 
  }
 

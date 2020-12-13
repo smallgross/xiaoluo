@@ -38,6 +38,10 @@ public class BlogController {
     private TypeService typeService;
     @Autowired
     private TagService tagService;
+    private Blog blog;
+    private RedirectAttributes attributes;
+    private HttpSession httpSession;
+
     /**
      * 分页功能
      */
@@ -78,7 +82,7 @@ public class BlogController {
     }
 
     /**
-     * 添加功能
+     *公用（保存和修改）
      * @param blog
      * @param attributes
      * @param session
@@ -86,13 +90,19 @@ public class BlogController {
      */
     @PostMapping("/blogs")
     public String post(Blog blog, RedirectAttributes attributes, HttpSession session){
+        //拿到当前的登录用户端的seesion
         blog.setUser((User)session.getAttribute("user"));
         blog.setType(typeService.getType(blog.getType().getId()));
 
         blog.setTags(tagService.listTag(blog.getTagIds()));
+        Blog b;
 
-        Blog b = blogService.saveBlog(blog);
+        if (blog.getId() == null) {
+            b = blogService.saveBlog(blog);
 
+        } else {
+            b = blogService.updateBlog(blog.getId(), blog);
+        }
         if (b==null){
             attributes.addFlashAttribute("message","操作失败");
 
@@ -111,10 +121,10 @@ public class BlogController {
      */
     @GetMapping("/bolgs/{id}/input")
     public String bolginput( @PathVariable Long id, Model model){
-    seTypeAndTag(model);
-  Blog blog=  blogService.getBlog(id);
+        seTypeAndTag(model);
+        Blog blog = blogService.getBlog(id);
         blog.init();
-  model.addAttribute("blog",blog);
+        model.addAttribute("blog", blog);
         return INPUT;
     }
 
@@ -141,5 +151,4 @@ public class BlogController {
         return REDIRECT_LIST;
 
     }
-
 }

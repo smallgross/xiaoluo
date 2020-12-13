@@ -8,7 +8,9 @@ import com.lrm.blog.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
@@ -40,10 +42,7 @@ public class BlogServiceiml implements BlogService{
         return blogRepository.findOne(id);
     }
 
-    @Override
-    public Blog gettitleByName(String title) {
-        return blogRepository.findBytitle(title);
-    }
+
 
     /**
      * 动态分页功能
@@ -58,7 +57,7 @@ public class BlogServiceiml implements BlogService{
             @Override
             public Predicate toPredicate(Root<Blog> root, CriteriaQuery<?> cq,
                                          CriteriaBuilder cb) {
-             List<Predicate>predicates =  new ArrayList<>();
+                List<Predicate> predicates = new ArrayList<>();
                 if (!"".equals(blog.getTitle())&& blog.getTitle()!=null){
                     predicates.add( cb.like(root.<String>get("title"),"%"+blog.getTitle()+"%"));
                 }
@@ -88,9 +87,8 @@ public class BlogServiceiml implements BlogService{
             blog.setCreateTime(new Date());
             blog.setUpdateTime(new Date());
             blog.setViews(0);
-        }
-       else {
-           blog.setUpdateTime(new Date());
+        } else {
+            blog.setUpdateTime(new Date());
         }
 
         return blogRepository.save(blog);
@@ -122,6 +120,26 @@ public class BlogServiceiml implements BlogService{
     @Transactional
     @Override
     public void deleteBlog(Long id) {
-    blogRepository.delete(id);
+        blogRepository.delete(id);
+    }
+
+    @Transactional
+    @Override
+    public Page<Blog> listBlog(String query, Pageable pageable) {
+        return blogRepository.findByQuery(query, pageable);
+    }
+
+    @Transactional
+    @Override
+    public Page<Blog> listBlog(Pageable pageable) {
+        return blogRepository.findAll(pageable);
+    }
+
+    @Transactional
+    @Override
+    public List<Blog> listRecommendBlogTop(Integer size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "updateTime");
+        Pageable pageable = new PageRequest(0, size, sort);
+        return blogRepository.findTop(pageable);
     }
 }
