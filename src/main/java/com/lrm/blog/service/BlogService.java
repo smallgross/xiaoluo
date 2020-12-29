@@ -45,4 +45,7 @@ public interface BlogService {
 
     //首页展示
     List<Blog> listRecommendBlogTop(Integer size);
+
+    //编辑器转换为html
+    Blog getAndConvert(Long id);
 }

@@ -60,6 +60,7 @@
             <artifactId>commonmark-ext-heading-anchor</artifactId>
             <version>0.10.0</version>
         </dependency>
+        <!--编辑器的插件-->
         <dependency>
             <groupId>com.atlassian.commonmark</groupId>
             <artifactId>commonmark-ext-gfm-tables</artifactId>

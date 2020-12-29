@@ -4,6 +4,7 @@ import com.lrm.blog.NotFoundException;
 import com.lrm.blog.dao.BlogRepository;
 import com.lrm.blog.po.Blog;
 import com.lrm.blog.po.Type;
+import com.lrm.blog.util.MarkdownUtils;
 import com.lrm.blog.vo.BlogQuery;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,12 +38,29 @@ public class BlogServiceiml implements BlogService{
      * @return
      */
 
+
     @Override
     public Blog getBlog(Long id) {
         return blogRepository.findOne(id);
     }
 
+    //编辑器转换为html
+    @Transactional
+    @Override
+    public Blog getAndConvert(Long id) {
+        Blog blog = blogRepository.findOne(id);
+        if (blog == null) {
+            throw new NotFoundException("该博客不存在");
 
+        } else {
+            Blog b = new Blog();
+            BeanUtils.copyProperties(blog, b);
+            String content = b.getContent();
+            b.setContent(MarkdownUtils.markdownToHtmlExtensions(content));
+            blogRepository.updateViews(id);
+            return b;
+        }
+    }
 
     /**
      * 动态分页功能

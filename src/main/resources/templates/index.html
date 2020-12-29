@@ -58,7 +58,9 @@
 									<div class="ui mobile reversed stackable  grid">
 										<!--左边博客列表--->
 										<div class="eleven wide column">
-											<h3 class="ui header "><a class="m-black" href="#" th:text="${blog.title}">电脑系统问题怎么处理？</a>
+                                            <h3 class="ui header ">
+                                                <a class="m-black" href="#" th:href="@{/blog/{id}(id=${blog.id})}"
+                                                   th:text="${blog.title}">电脑系统问题怎么处理？</a>
 											</h3>
 											<p class="m-text" th:text="|${blog.description}.....|">
 												正确处理电脑问题、如何处理事件中的大问题....</p>

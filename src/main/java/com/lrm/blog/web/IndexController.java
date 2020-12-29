@@ -54,11 +54,9 @@ public class IndexController {
         return "search";
     }
     //详情页
-
-
-    @PostMapping("/bolog/{id}")
+    @GetMapping("/blog/{id}")
     public String bolog(@PathVariable Long id, Model model) {
-        model.addAttribute("bolg");
+        model.addAttribute("blog", blogService.getAndConvert(id));
         return "bolog";
     }
 
