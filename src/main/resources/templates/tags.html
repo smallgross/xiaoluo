@@ -13,13 +13,13 @@
 		<!--
         	导航
         -->
-		<nav class=" ui  inverted attached segment m-padded—tb-mini m-shadow-small">
+        <nav class=" ui  inverted attached segment m-padded—tb-mini m-shadow-small" th:replace="_fragments :: menu(3)">
 			<div class="ui container">
 				<div class="ui inverted secondary stackable menu">
 					<h2 class="ui teal header item">BLOG</h2>
 					<a href="#" class="m-item item m-mobile-hide"><i class=" home icon"></i>首页</a>
 					<a href="#" class="m-item item m-mobile-hide"><i class=" idea icon"></i>分类</a>
-					<a href="#" class="active m-item item m-mobile-hide"><i class=" tags icon"></i>标签</a>
+                    <a class=" m-item item m-mobile-hide" href="#"><i class=" tags icon"></i>标签</a>
 					<a href="#" class="m-item item m-mobile-hide"><i class="clone icon"></i>归档</a>
 					<a href="#" class="m-item item m-mobile-hide"><i class=" info icon"></i>关于我</a>
 
@@ -48,69 +48,55 @@
 						</div>
 						<div class="right aligned column">
 							共
-							<h2 class="ui orange header m-inline-block m-text-thin">14</h2>个
+                            <h2 class="ui orange header m-inline-block m-text-thin" th:text="${#arrays.length(tags)}">
+                                14</h2>个
 						</div>
 					</div>
 				</div>
 				<div class="ui attached segment m-padded-tb-large">
 
-					<a href="#" target="_blank" class="ui teal basic left pointing large label m-margin-th-tiny">
-						方法论
-						<div class="detail">23</div>
-					</a>
-					<a href="#" target="_blank" class="ui basic basic left pointing large label m-margin-th-tiny">
-						方法论
-						<div class="detail">23</div>
-					</a>
-					<a href="#" target="_blank" class="ui basic basic left pointing large label m-margin-th-tiny">
-						方法论
-						<div class="detail">23</div>
-					</a>
-					<a href="#" target="_blank" class="ui basic basic left pointing large label m-margin-th-tiny">
-						方法论
-						<div class="detail">23</div>
-					</a>
-					<a href="#" target="_blank" class="ui basic basic left pointing large label m-margin-th-tiny">
-						方法论
-						<div class="detail">23</div>
+                    <a class="ui basic left pointing large label m-margin-tb-tiny" href="#"
+                       th:classappend="${tag.id==activeTagId} ? 'teal'" th:each="tag : ${tags}"
+                       th:href="@{/tags/{id}(id=${tag.id})}">
+                        <span th:text="${tag.name}">方法论</span>
+                        <div class="detail" th:text="${#arrays.length(tag.blogs)}">23</div>
 					</a>
 
 				</div>
 				<div class="ui top attached teal segment">
-					<div class="ui padded vertical segment m-padded-tb-large m-mobile-clear">
-						<div class="ui mobile reversed stackable  grid">
+                    <div class="ui padded vertical segment m-padded-tb-large m-mobile-clear"
+                         th:each="blog : ${page.content}">
+                        <div class="ui middle aligned mobile reversed stackable grid">
 							<div class="eleven wide column">
-								<h3 class="ui header ">电脑系统问题怎么处理？</h3>
-								<p class="m-text">正确处理电脑问题、如何处理事件中的大问题....</p>
-								<div class="ui stackable grid">
-									<div class="row">
-										<div class="eleven wide column">
-											<div class="ui mini horizontal link list">
-												<div class="item">
-													<img src="https://unsplash.it/20/20?image=1005" alt="" class="ui avatar image" />
-													<div class="content">
-														<a href="#" class="header">小罗</a>
-													</div>
-												</div>
-												<div class="item">
-													<i class="calendar icon"></i>2020-9-20
-												</div>
-												<div class="item">
-													<i class="eye icon"></i>100
-												</div>
-											</div>
-										</div>
-										<div class="right aligned five wide column">
-											<a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-										</div>
-									</div>
-									<div class="row">
-										<div class="column">
-											<a href="#" class="ui basic teal left pointing label m-padded-mini m-text-thin">方法</a>
-										</div>
-
-									</div>
-
+                                <h3 class="ui header ">
+                                    <a class="m-black" href="#" th:href="@{/blog/{id}(id=${blog.id})}"
+                                       th:text="${blog.title}">电脑系统问题怎么处理？</a>
+                                </h3>
+                                <p class="m-text" th:text="|${blog.description}......|">正确处理电脑问题、如何处理事件中的大问题....</p>
+                                <div class="ui grid">
+                                    <div class="eleven wide column">
+                                        <div class="ui mini horizontal link list">
+                                            <div class="item">
+                                                <img alt="" class="ui avatar image"
+                                                     src="https://unsplash.it/20/20?image=1005"
+                                                     th:src="@{${blog.user.avatar}}"/>
+                                                <div class="content">
+                                                    <a class="header" href="#" th:text="${blog.user.nickname}">小罗</a>
+                                                </div>
+                                            </div>
+                                            <div class="item">
+                                                <i class="calendar icon"></i><span
+                                                    th:text="${#dates.format(blog.updateTime,'yyyy-MM-dd')}">2020-10-01</span>
+                                            </div>
+                                            <div class="item">
+                                                <i class="eye icon"></i> <span th:text="${blog.views}">2342</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="right aligned five wide column">
+                                        <a class="ui teal basic label m-padded-tiny m-text-thin" href="#"
+                                           target="_blank" th:text="${blog.type.name}">认知升级</a>
+                                    </div>
 								</div>
 							</div>
 							<div class="five wide column">
@@ -121,106 +107,22 @@
 							</div>
 						</div>
 					</div>
-	<div class="ui padded vertical segment m-padded-tb-large m-mobile-clear">
-						<div class="ui mobile reversed stackable  grid">
-							<div class="eleven wide column">
-								<h3 class="ui header ">电脑系统问题怎么处理？</h3>
-								<p class="m-text">正确处理电脑问题、如何处理事件中的大问题....</p>
-								<div class="ui stackable grid">
-									<div class="row">
-										<div class="eleven wide column">
-											<div class="ui mini horizontal link list">
-												<div class="item">
-													<img src="https://unsplash.it/20/20?image=1005" alt="" class="ui avatar image" />
-													<div class="content">
-														<a href="#" class="header">小罗</a>
-													</div>
-												</div>
-												<div class="item">
-													<i class="calendar icon"></i>2020-9-20
-												</div>
-												<div class="item">
-													<i class="eye icon"></i>100
-												</div>
-											</div>
-										</div>
-										<div class="right aligned five wide column">
-											<a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-										</div>
-									</div>
-									<div class="row">
-										<div class="column">
-											<a href="#" class="ui basic teal left pointing label m-padded-mini m-text-thin">方法</a>
-										</div>
 
-									</div>
-
-								</div>
-							</div>
-							<div class="five wide column">
-
-								<a href="#" target="_blank">
-									<img src="https://unsplash.it/150/90?image=1005" alt="" class="ui rounded image" />
-								</a>
-							</div>
-						</div>
-					</div>
-					<div class="ui padded vertical segment m-padded-tb-large m-mobile-clear">
-						<div class="ui mobile reversed stackable  grid">
-							<div class="eleven wide column">
-								<h3 class="ui header ">电脑系统问题怎么处理？</h3>
-								<p class="m-text">正确处理电脑问题、如何处理事件中的大问题....</p>
-								<div class="ui stackable grid">
-									<div class="row">
-										<div class="eleven wide column">
-											<div class="ui mini horizontal link list">
-												<div class="item">
-													<img src="https://unsplash.it/20/20?image=1005" alt="" class="ui avatar image" />
-													<div class="content">
-														<a href="#" class="header">小罗</a>
-													</div>
-												</div>
-												<div class="item">
-													<i class="calendar icon"></i>2020-9-20
-												</div>
-												<div class="item">
-													<i class="eye icon"></i>100
-												</div>
-											</div>
-										</div>
-										<div class="right aligned five wide column">
-											<a href="#" target="_blank" class="ui teal basic label m-padded-tiny m-text-thin">认知升级</a>
-										</div>
-									</div>
-									<div class="row">
-										<div class="column">
-											<a href="#" class="ui basic teal left pointing label m-padded-mini m-text-thin">方法</a>
-										</div>
-
-									</div>
-
-								</div>
-							</div>
-							<div class="five wide column">
-
-								<a href="#" target="_blank">
-									<img src="https://unsplash.it/150/90?image=1005" alt="" class="ui rounded image" />
-								</a>
-							</div>
-						</div>
-					</div>
-					
 				</div>
 				<!-----分页------>
-				<div class="ui bottom attached segment">
-					<div class="ui middle aligned two column grid">
-						<div class="column">
-							<a href="#" class="ui mini teal basic button">上一页</a>
-						</div>
-						<div class="right aligned column">
-							<a href="#" class="ui mini teal basic button">下一页</a>
-						</div>
-					</div>
+                <div class="ui bottom attached segment" th:if="${page.totalPages}>1">
+                    <div class="ui middle aligned two column  grid ">
+                        <div class="column">
+                            <a class="ui mini teal basic button" href="#"
+                               th:href="@{/tags/'+${activeTypeId}(page=${page.number}-1)}"
+                               th:unless="${page.first}">上一页</a>
+                        </div>
+                        <div class="right aligned column">
+                            <a class="ui mini teal basic button" href="#"
+                               th:href="@{/tags/'+${activeTypeId}(page=${page.number}+1)}"
+                               th:unless="${page.first}">下一页</a>
+                        </div>
+                    </div>
 				</div>
 			</div>
 		</div>
@@ -233,7 +135,7 @@
         	描述：
         	底部footer
         -->
-		<footer class="ui inverted vertical segment m-padded-tb-massive ">
+        <footer class="ui inverted vertical segment m-padded-tb-massive " th:replace="_fragments :: footer">
 			<div class="ui center  aligned container">
 				<div class="ui inverted divided stackable  grid">
 					<div class="three wide column">
@@ -271,9 +173,10 @@
 			</div>
 
 		</footer>
-
+        <!--/*/<th:block th:replace="_fragments :: script">/*/-->
 		<script src="https://cdn.jsdelivr.net/npm/jquery@3.2/dist/jquery.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/semantic-ui/2.2.4/semantic.min.js"></script>
+        <!--/*/</th:block>/*/-->
 		<script>
 			$(".menu.toggle").click(function() {
 				$(".m-item").toggleClass("m-mobile-hide");

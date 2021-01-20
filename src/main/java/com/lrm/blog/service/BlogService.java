@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 博客 界面
@@ -16,11 +17,6 @@ public interface BlogService {
  */
     Blog getBlog(Long id);
 
-    ;
-    /**
-     * 分页功能
-     */
-    Page<Blog>listBloag(Pageable pageable, BlogQuery blog);
 
     /**
      * 增加功能
@@ -37,9 +33,12 @@ public interface BlogService {
 
 
     //首页查询方法
-
-
     Page<Blog> listBlog(String query, Pageable pageable);
+
+    //分页的
+    Page<Blog> listBloag(Pageable pageable, BlogQuery blog);
+
+    Page<Blog> listBlog(Long tagId, Pageable pageable);
 
     Page<Blog> listBlog(Pageable pageable);
 
@@ -48,4 +47,10 @@ public interface BlogService {
 
     //编辑器转换为html
     Blog getAndConvert(Long id);
+
+    Map<String, List<Blog>> archiveBlog();
+
+    Long countBlog();
+
+
 }

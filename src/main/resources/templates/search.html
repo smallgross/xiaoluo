@@ -59,7 +59,8 @@
                 <div class="ui mobile reversed stackable  grid">
                     <!--左边博客列表--->
                     <div class="eleven wide column">
-                        <h3 class="ui header "><a class="m-black" href="#" th:text="${blog.title}">电脑系统问题怎么处理？</a>
+                        <h3 class="ui header "><a class="m-black" href="#" target="_blank"
+                                                  th:href="@{/blog/{id}(id=${blog.id})}" th:text="${blog.title}">电脑系统问题怎么处理？</a>
                         </h3>
                         <p class="m-text" th:text="|${blog.description}.....|">
                             正确处理电脑问题、如何处理事件中的大问题....</p>
@@ -93,10 +94,9 @@
                     </div>
                     <div class="five wide column">
 
-                        <a href="#" target="_blank">
+                        <a href="#" target="_blank" th:href="@{/blog/{id}(id=${blog.id})}">
                             <img alt="" class="ui rounded image"
-                                 src="https://unsplash.it/150/90?image=1005"
-                                 th:src="@{${blog.firstPicture}}"/>
+                                 src="https://unsplash.it/150/90?image=1005"/>
                         </a>
                     </div>
                 </div>

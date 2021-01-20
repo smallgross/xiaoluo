@@ -1,5 +1,11 @@
 package com.lrm.blog.vo;
 
+import lombok.Data;
+
+/**
+ * 封装查询条件
+ */
+@Data
 public class BlogQuery {
     private String title;
     private  Long typeId;
@@ -32,5 +38,7 @@ public class BlogQuery {
 
     public void setRecommend(boolean recommend) {
         this.recommend = recommend;
+
+
     }
 }
